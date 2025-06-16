@@ -41,7 +41,7 @@ print(len(data_mc3['tar_interactions']))
 
 opt_dict = {'epochs': 30,
             'batch_size': 57000,
-            'use_cuda': False,
+            'use_cuda': True,
             'strategy': 'soft',
             'beta': 1e-2,
             'outer_iteration': 200,
