@@ -35,7 +35,7 @@ class GromovWassersteinEmbedding(nn.Module):
     def orthogonal(self, index, idx):
         embs = self.emb_model[idx](index)
         orth = torch.matmul(torch.t(embs), embs)
-        orth -= torch.eye(embs.size(1))
+        orth -= torch.eye(embs.size(1)).cuda()
         return (orth**2).sum()
 
     def self_cost_mat(self, index, idx):
@@ -628,9 +628,9 @@ class GromovWassersteinLearning(object):
                         cost2 = cost_t
                         cost12 = prior
                 else:
-                    cost_s_emb = mask_s.data * self.gwl_model.self_cost_mat(index_s, 0).data
-                    cost_t_emb = mask_t.data * self.gwl_model.self_cost_mat(index_t, 1).data
-                    cost_st_12 = mask_st.data * self.gwl_model.mutual_cost_mat(index_s, index_t).data
+                    cost_s_emb = mask_s.data * self.gwl_model.self_cost_mat(index_s, 0).data.cuda()
+                    cost_t_emb = mask_t.data * self.gwl_model.self_cost_mat(index_t, 1).data.cuda()
+                    cost_st_12 = mask_st.data * self.gwl_model.mutual_cost_mat(index_s, index_t).data.cuda()
                     alpha = max([(hyperpara_dict['epochs'] - epoch) / hyperpara_dict['epochs'], 0.7])
                     cost1 = alpha * cost_s + (1 - alpha) * cost_s_emb
                     cost2 = alpha * cost_t + (1 - alpha) * cost_t_emb

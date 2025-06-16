@@ -456,11 +456,11 @@ def cost_sampler1(database, indices, device):
     # prior /= (prior.max())
     # prior = 1 - prior
     mask_s = cost_s > 0
-    mask_s = mask_s.type(torch.FloatTensor)
+    mask_s = mask_s.type(torch.FloatTensor).cuda()
     mask_t = cost_t > 0
-    mask_t = mask_t.type(torch.FloatTensor)
+    mask_t = mask_t.type(torch.FloatTensor).cuda()
     mask_st = prior > 0
-    mask_st = mask_st.type(torch.FloatTensor)
+    mask_st = mask_st.type(torch.FloatTensor).cuda()
 
     # convert correlation to distance
     cost_s = 1 / (cost_s + 1)
