@@ -52,8 +52,8 @@ class GromovWassersteinEmbedding(nn.Module):
         return cost
 
     def mutual_cost_mat(self, index1, index2):
-        embs1 = self.emb_model[0](index1)  # (batch_size1, dim)
-        embs2 = self.emb_model[1](index2)  # (batch_size2, dim)
+        embs1 = self.emb_model[0](index1.cuda())  # (batch_size1, dim)
+        embs2 = self.emb_model[1](index2.cuda())  # (batch_size2, dim)
         if self.cost_type == 'cosine':
             # cosine similarity
             energy1 = torch.sqrt(torch.sum(embs1 ** 2, dim=1, keepdim=True))  # (batch_size1, 1)
